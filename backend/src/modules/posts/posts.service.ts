@@ -1,67 +1,64 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-
-export interface Post {
-  id: number;
-  title: string;
-  content: string;
-  authorId: number;
-  published: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { Post } from './entities/post.entity';
 
 @Injectable()
 export class PostsService {
-  private posts: Post[] = [
-    {
-      id: 1,
-      title: 'First Post',
-      content: 'This is the first post',
-      authorId: 1,
-      published: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ];
-  private idCounter = 2;
+  constructor(
+    @InjectRepository(Post)
+    private readonly postRepository: Repository<Post>,
+  ) {}
 
-  create(createPostDto: CreatePostDto): Post {
-    const newPost: Post = {
-      id: this.idCounter++,
-      ...createPostDto,
-      published: createPostDto.published ?? false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    this.posts.push(newPost);
-    return newPost;
+  async create(createPostDto: CreatePostDto): Promise<Post> {
+    const post = this.postRepository.create(createPostDto);
+    return await this.postRepository.save(post);
   }
 
-  findAll(): Post[] {
-    return this.posts;
+  async findAll(): Promise<Post[]> {
+    return await this.postRepository.find({
+      relations: ['author'],
+      order: { createdAt: 'DESC' },
+    });
   }
 
-  findOne(id: number): Post {
-    const post = this.posts.find((p) => p.id === id);
+  async findOne(id: number): Promise<Post> {
+    const post = await this.postRepository.findOne({
+      where: { id },
+      relations: ['author'],
+    });
     if (!post) {
       throw new NotFoundException(`Post with ID ${id} not found`);
     }
     return post;
   }
 
-  update(id: number, updatePostDto: UpdatePostDto): Post {
-    const post = this.findOne(id);
-    Object.assign(post, { ...updatePostDto, updatedAt: new Date() });
-    return post;
+  async update(id: number, updatePostDto: UpdatePostDto): Promise<Post> {
+    const post = await this.findOne(id);
+    Object.assign(post, updatePostDto);
+    return await this.postRepository.save(post);
   }
 
-  remove(id: number): void {
-    const index = this.posts.findIndex((p) => p.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`Post with ID ${id} not found`);
-    }
-    this.posts.splice(index, 1);
+  async remove(id: number): Promise<void> {
+    const post = await this.findOne(id);
+    await this.postRepository.remove(post);
+  }
+
+  async findByAuthor(authorId: number): Promise<Post[]> {
+    return await this.postRepository.find({
+      where: { authorId },
+      relations: ['author'],
+      order: { createdAt: 'DESC' },
+    });
+  }
+
+  async findPublished(): Promise<Post[]> {
+    return await this.postRepository.find({
+      where: { isPublished: true },
+      relations: ['author'],
+      order: { createdAt: 'DESC' },
+    });
   }
 }
