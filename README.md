@@ -50,10 +50,10 @@ pr-nest-next-learning/
 
 ```bash
 cd backend
-npm install
-npm run start:dev  # 개발 모드
-npm run test       # 단위 테스트
-npm run test:e2e   # E2E 테스트
+pnpm install
+pnpm run start:dev  # 개발 모드
+pnpm run test       # 단위 테스트
+pnpm run test:e2e   # E2E 테스트
 ```
 
 **API 엔드포인트:** `http://localhost:3001/api`
@@ -62,12 +62,12 @@ npm run test:e2e   # E2E 테스트
 
 ```bash
 cd frontend
-npm install
-npm run dev              # 개발 서버
-npm run test             # 단위 테스트
-npm run test:watch       # 테스트 Watch 모드
-npm run test:e2e         # Playwright E2E 테스트
-npm run test:e2e:ui      # Playwright UI 모드
+pnpm install
+pnpm run dev              # 개발 서버
+pnpm run test             # 단위 테스트
+pnpm run test:watch       # 테스트 Watch 모드
+pnpm run test:e2e         # Playwright E2E 테스트
+pnpm run test:e2e:ui      # Playwright UI 모드
 ```
 
 **프론트엔드:** `http://localhost:3000`

@@ -104,8 +104,8 @@
 
 ```bash
 cd backend
-npm install  # 이미 설치됨
-npm run start:dev
+pnpm install  # 이미 설치됨
+pnpm run start:dev
 ```
 
 **접속:** http://localhost:3001/api
@@ -114,8 +114,8 @@ npm run start:dev
 
 ```bash
 cd frontend
-npm install  # 이미 설치됨
-npm run dev
+pnpm install  # 이미 설치됨
+pnpm run dev
 ```
 
 **접속:** http://localhost:3000
@@ -126,21 +126,21 @@ npm run dev
 
 ```bash
 cd backend
-npm run test              # 단위 테스트
-npm run test:watch        # Watch 모드
-npm run test:e2e          # E2E 테스트
-npm run test:cov          # 커버리지
+pnpm run test              # 단위 테스트
+pnpm run test:watch        # Watch 모드
+pnpm run test:e2e          # E2E 테스트
+pnpm run test:cov          # 커버리지
 ```
 
 ### Frontend 테스트
 
 ```bash
 cd frontend
-npm run test              # 단위 테스트
-npm run test:watch        # Watch 모드
-npm run test:coverage     # 커버리지
-npm run test:e2e          # E2E 테스트
-npm run test:e2e:ui       # E2E UI 모드
+pnpm run test              # 단위 테스트
+pnpm run test:watch        # Watch 모드
+pnpm run test:coverage     # 커버리지
+pnpm run test:e2e          # E2E 테스트
+pnpm run test:e2e:ui       # E2E UI 모드
 ```
 
 ## 📚 학습 경로
@@ -295,8 +295,8 @@ NEXT_PUBLIC_API_URL=http://localhost:3001/api
 
 ```bash
 cd backend
-rm -rf node_modules package-lock.json
-npm install
+rm -rf node_modules pnpm-lock.yaml
+pnpm install
 ```
 
 ### Frontend 테스트가 실패하는 경우

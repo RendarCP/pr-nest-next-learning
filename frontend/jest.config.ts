@@ -12,16 +12,17 @@ const config: Config = {
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
   },
-  testMatch: [
-    "**/__tests__/**/*.test.[jt]s?(x)",
-    "**/?(*.)+(spec|test).[jt]s?(x)",
-  ],
+  testMatch: ["**/*.test.[jt]s?(x)", "**/*.spec.[jt]s?(x)"],
+  testPathIgnorePatterns: ["/node_modules/", "/.next/", "/e2e/"],
   collectCoverageFrom: [
     "app/**/*.{js,jsx,ts,tsx}",
     "components/**/*.{js,jsx,ts,tsx}",
+    "!components/**/index.ts",
     "!**/*.d.ts",
     "!**/node_modules/**",
     "!**/.next/**",
+    "!**/*.test.{js,jsx,ts,tsx}",
+    "!**/*.spec.{js,jsx,ts,tsx}",
   ],
 };
 
