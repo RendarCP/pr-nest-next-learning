@@ -39,16 +39,20 @@ frontend/
 ### 설치
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### 개발 서버 실행
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 서버가 `http://localhost:3000`에서 실행됩니다.
+
+### 컴포넌트 Showcase
+
+`http://localhost:3000/showcase` 에서 모든 컴포넌트를 확인하고 테스트할 수 있습니다.
 
 ### 프로덕션 빌드
 
