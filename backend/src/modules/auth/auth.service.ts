@@ -3,6 +3,7 @@ import {
   UnauthorizedException,
   ConflictException,
 } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -17,7 +18,14 @@ export class AuthService {
       throw new ConflictException('User already exists');
     }
 
-    const user = await this.usersService.create(registerDto);
+    // 비밀번호 암호화
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(registerDto.password, saltRounds);
+
+    const user = await this.usersService.create({
+      ...registerDto,
+      password: hashedPassword,
+    });
 
     // 실제 환경에서는 JWT 토큰 발급
     return {
@@ -36,7 +44,16 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // 실제 환경에서는 비밀번호 검증 및 JWT 토큰 발급
+    // 비밀번호 검증
+    const isPasswordValid = await bcrypt.compare(
+      loginDto.password,
+      user.password,
+    );
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    // 실제 환경에서는 JWT 토큰 발급
     return {
       user: {
         id: user.id,

@@ -11,33 +11,32 @@ import { Request } from 'express';
 import { throwError } from 'rxjs';
 
 @Injectable()
-export class LoggingInterceptor implements NestInterceptor {
-  private readonly logger = new Logger(LoggingInterceptor.name);
+export class AuthLoggingInterceptor implements NestInterceptor {
+  private readonly logger = new Logger(AuthLoggingInterceptor.name);
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const request = context.switchToHttp().getRequest<Request>();
     const method = request.method;
     const url = request.url;
-    const userAgent = request.get('User-Agent') || '';
     const ip = request.ip || request.connection.remoteAddress;
     const now = Date.now();
 
-    // 요청 시작 로깅
-    this.logger.log(
-      `[${method}] ${url} - START - IP: ${ip} - UserAgent: ${userAgent}`,
-    );
+    // 인증 관련 요청 특별 로깅
+    this.logger.log(`[AUTH] ${method} ${url} - IP: ${ip} - START`);
 
     return next.handle().pipe(
       tap((response) => {
         const responseTime = Date.now() - now;
+        const isSuccess = response && (response as any).accessToken;
+
         this.logger.log(
-          `[${method}] ${url} - SUCCESS - ${responseTime}ms - Response: ${JSON.stringify(response).substring(0, 100)}...`,
+          `[AUTH] ${method} ${url} - ${isSuccess ? 'SUCCESS' : 'FAILED'} - ${responseTime}ms`,
         );
       }),
       catchError((error) => {
         const responseTime = Date.now() - now;
         this.logger.error(
-          `[${method}] ${url} - ERROR - ${responseTime}ms - Error: ${error.message}`,
+          `[AUTH] ${method} ${url} - ERROR - ${responseTime}ms - ${error.message}`,
           error.stack,
         );
         return throwError(() => error);
