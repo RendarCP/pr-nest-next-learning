@@ -2,7 +2,7 @@
 
 ## 현재 작업 상태
 
-**메모리 뱅크 초기화 완료** - 프로젝트의 전체적인 구조와 컨텍스트를 파악하고 문서화했습니다.
+**백엔드 인증 시스템 및 에러 핸들링 개선 완료** - 전역 예외 필터, 로깅 인터셉터, 비밀번호 검증 파이프가 구현되었습니다.
 
 ## 최근 변경사항
 
@@ -10,30 +10,31 @@
 
 ```
 Changes not staged for commit:
-  modified:   backend/package.json
-  modified:   backend/src/app.module.ts
+  modified:   backend/.prettierrc
+  modified:   backend/eslint.config.mjs
+  deleted:    backend/src/common/filters/auth-exception.filter.ts
+  deleted:    backend/src/common/filters/http-exception.filter.ts
+  deleted:    backend/src/common/interceptors/auth-logging.interceptor.ts
+  deleted:    backend/src/common/interceptors/logging.interceptor.ts
+  modified:   backend/src/common/pipes/password-validation.pipe.ts
+  deleted:    backend/src/common/pipes/validation.pipe.ts
+  modified:   backend/src/main.ts
+  modified:   backend/src/modules/auth/auth.controller.ts
+  modified:   backend/src/modules/auth/auth.module.ts
   modified:   backend/src/modules/auth/auth.service.ts
-  modified:   backend/src/modules/posts/dto/create-post.dto.ts
-  modified:   backend/src/modules/posts/posts.module.ts
-  modified:   backend/src/modules/posts/posts.service.ts
-  modified:   backend/src/modules/users/dto/create-user.dto.ts
-  modified:   backend/src/modules/users/users.module.ts
-  modified:   backend/src/modules/users/users.service.ts
 
 Untracked files:
-  .cursor/
-  backend/DATABASE_SETUP.md
-  backend/src/config/database.config.ts
-  backend/src/modules/posts/entities/
-  backend/src/modules/users/entities/
+  backend/src/common/filters/global-exception.filter.ts
+  backend/src/common/interceptors/global-logging.interceptor.ts
 ```
 
 ### 주요 변경사항 분석
 
-1. **데이터베이스 설정 추가**: `database.config.ts` 파일이 새로 생성됨
-2. **엔티티 파일 추가**: `User`, `Post` 엔티티가 생성됨
-3. **모듈 업데이트**: 각 모듈의 서비스와 DTO가 수정됨
-4. **데이터베이스 설정 문서**: `DATABASE_SETUP.md` 가이드 추가
+1. **전역 예외 필터 구현**: `GlobalExceptionFilter`로 통합된 에러 처리
+2. **전역 로깅 인터셉터 구현**: `GlobalLoggingInterceptor`로 통합된 로깅
+3. **비밀번호 검증 강화**: `PasswordValidationPipe`로 보안 강화
+4. **인증 서비스 개선**: bcrypt를 통한 비밀번호 암호화 구현
+5. **코드 품질 개선**: ESLint, Prettier 설정 최적화
 
 ## 현재 작업 중인 영역
 
@@ -80,8 +81,12 @@ Untracked files:
 - ✅ **데이터베이스 설정**: TypeORM + PostgreSQL
 - ✅ **엔티티 정의**: User, Post 엔티티
 - ✅ **DTO 검증**: class-validator 활용
-- ⚠️ **API 엔드포인트**: 구현 중 (테스트 필요)
-- ⚠️ **인증 시스템**: JWT 구현 중
+- ✅ **전역 예외 처리**: GlobalExceptionFilter 구현
+- ✅ **전역 로깅**: GlobalLoggingInterceptor 구현
+- ✅ **비밀번호 보안**: bcrypt 암호화 + 강력한 비밀번호 검증
+- ✅ **인증 시스템**: 회원가입/로그인 기본 구현 완료
+- ⚠️ **JWT 토큰**: 실제 JWT 구현 필요
+- ⚠️ **API 테스트**: 엔드포인트 동작 확인 필요
 
 ### 프론트엔드 기능
 
@@ -93,10 +98,10 @@ Untracked files:
 
 ## 현재 이슈 및 해결 필요사항
 
-### 1. 데이터베이스 연결
+### 1. JWT 토큰 구현
 
-- **상태**: 설정 파일은 생성됨, 실제 연결 테스트 필요
-- **해결방안**: 환경 변수 설정 및 연결 테스트
+- **상태**: 인증 로직은 완성, 실제 JWT 토큰 발급 필요
+- **해결방안**: @nestjs/jwt 패키지 설치 및 JWT 서비스 구현
 
 ### 2. API 엔드포인트 테스트
 
@@ -107,6 +112,11 @@ Untracked files:
 
 - **상태**: 각각 독립적으로 동작, 통합 테스트 필요
 - **해결방안**: CORS 설정 및 API 호출 구현
+
+### 4. 데이터베이스 연결
+
+- **상태**: 설정 파일은 생성됨, 실제 연결 테스트 필요
+- **해결방안**: 환경 변수 설정 및 연결 테스트
 
 ## 개발 환경 상태
 

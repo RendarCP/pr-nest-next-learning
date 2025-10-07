@@ -28,6 +28,9 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
+  @Column({ nullable: true })
+  refreshToken?: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -35,6 +38,6 @@ export class User {
   updatedAt: Date;
 
   // 관계 설정
-  @OneToMany(() => Post, (post) => post.author)
+  @OneToMany(() => Post, post => post.author)
   posts: Post[];
 }

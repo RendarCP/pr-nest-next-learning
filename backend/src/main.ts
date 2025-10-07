@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { GlobalLoggingInterceptor } from './common/interceptors/global-logging.interceptor';
 import { appConfig } from './config/app.config';
 
 async function bootstrap() {
@@ -27,10 +27,10 @@ async function bootstrap() {
   );
 
   // 전역 Exception Filter
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new GlobalExceptionFilter());
 
   // 전역 Interceptor
-  app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(new GlobalLoggingInterceptor());
 
   await app.listen(appConfig.port);
   console.log(

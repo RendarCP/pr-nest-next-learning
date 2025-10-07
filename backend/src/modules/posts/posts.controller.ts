@@ -8,12 +8,15 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { AuthGuard } from '../../common/guards/auth.guard';
 
 @Controller('posts')
+@UseGuards(AuthGuard)
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 

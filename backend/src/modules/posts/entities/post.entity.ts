@@ -30,7 +30,7 @@ export class Post {
   updatedAt: Date;
 
   // 관계 설정
-  @ManyToOne(() => User, (user) => user.posts, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, user => user.posts, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'authorId' })
   author: User;
 

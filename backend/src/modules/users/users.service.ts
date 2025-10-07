@@ -73,4 +73,10 @@ export class UsersService {
       relations: ['posts'],
     });
   }
+
+  async findByRefreshToken(refreshToken: string): Promise<User | null> {
+    return await this.userRepository.findOne({
+      where: { refreshToken },
+    });
+  }
 }

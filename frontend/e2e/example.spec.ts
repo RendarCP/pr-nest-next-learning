@@ -4,7 +4,7 @@ test("홈페이지가 로드되어야 함", async ({ page }) => {
   await page.goto("/");
 
   // 페이지 타이틀 확인
-  await expect(page).toHaveTitle(/Next.js/);
+  await expect(page).toHaveTitle("Create Next App");
 });
 
 test("네비게이션이 동작해야 함", async ({ page }) => {
