@@ -2,7 +2,7 @@
 
 ## 현재 작업 상태
 
-**백엔드 인증 시스템 및 에러 핸들링 개선 완료** - 전역 예외 필터, 로깅 인터셉터, 비밀번호 검증 파이프가 구현되었습니다.
+**프론트엔드 인증 시스템 및 현대적 로딩 UI 구현 완료** - Next.js 15 App Router 기반 서버 컴포넌트 인증 시스템과 스켈레톤 UI 라이브러리가 구현되었습니다.
 
 ## 최근 변경사항
 
@@ -10,6 +10,7 @@
 
 ```
 Changes not staged for commit:
+  modified:   .clinerules
   modified:   backend/.prettierrc
   modified:   backend/eslint.config.mjs
   deleted:    backend/src/common/filters/auth-exception.filter.ts
@@ -22,19 +23,47 @@ Changes not staged for commit:
   modified:   backend/src/modules/auth/auth.controller.ts
   modified:   backend/src/modules/auth/auth.module.ts
   modified:   backend/src/modules/auth/auth.service.ts
+  modified:   backend/src/modules/posts/entities/post.entity.ts
+  modified:   backend/src/modules/posts/posts.controller.ts
+  modified:   backend/src/modules/users/dto/update-user.dto.ts
+  modified:   backend/src/modules/users/entities/user.entity.ts
+  modified:   backend/src/modules/users/users.controller.ts
+  modified:   backend/src/modules/users/users.service.spec.ts
+  modified:   backend/src/modules/users/users.service.ts
+  modified:   frontend/e2e/example.spec.ts
+  modified:   memory-bank/activeContext.md
+  modified:   memory-bank/progress.md
 
 Untracked files:
   backend/src/common/filters/global-exception.filter.ts
   backend/src/common/interceptors/global-logging.interceptor.ts
+  backend/src/modules/auth/strategies/
+  frontend/app/login/
+  frontend/app/register/
+  frontend/lib/actions/
+  frontend/lib/api/
+  frontend/lib/auth/
+  frontend/app/suspense/
+  frontend/components/Skeleton/
 ```
 
 ### 주요 변경사항 분석
+
+#### 백엔드 개선사항
 
 1. **전역 예외 필터 구현**: `GlobalExceptionFilter`로 통합된 에러 처리
 2. **전역 로깅 인터셉터 구현**: `GlobalLoggingInterceptor`로 통합된 로깅
 3. **비밀번호 검증 강화**: `PasswordValidationPipe`로 보안 강화
 4. **인증 서비스 개선**: bcrypt를 통한 비밀번호 암호화 구현
 5. **코드 품질 개선**: ESLint, Prettier 설정 최적화
+
+#### 프론트엔드 신규 구현사항
+
+1. **인증 시스템 구현**: Next.js 15 App Router 기반 서버 컴포넌트 인증
+2. **서버 액션 활용**: API 라우트 대신 서버 액션으로 백엔드 연동
+3. **현대적 로딩 UI**: 스켈레톤 UI 라이브러리 및 다양한 로딩 패턴
+4. **Suspense Streaming**: React Server Components의 스트리밍 기능 활용
+5. **에러 처리**: Next.js error.tsx를 활용한 에러 바운더리 구현
 
 ## 현재 작업 중인 영역
 
@@ -93,7 +122,11 @@ Untracked files:
 - ✅ **기본 페이지**: 홈페이지, 쇼케이스 페이지
 - ✅ **컴포넌트 라이브러리**: Button, Card, Input
 - ✅ **테스트 환경**: Jest, Playwright, MSW
-- ⚠️ **API 연동**: 백엔드와 연동 필요
+- ✅ **인증 시스템**: 로그인/회원가입 페이지 (서버 컴포넌트)
+- ✅ **서버 액션**: 백엔드 API 직접 호출
+- ✅ **현대적 로딩 UI**: 스켈레톤 UI 라이브러리
+- ✅ **Suspense Streaming**: React Server Components 스트리밍
+- ✅ **에러 처리**: Next.js error.tsx 에러 바운더리
 - ⚠️ **상태 관리**: 서버 상태 관리 필요
 
 ## 현재 이슈 및 해결 필요사항
