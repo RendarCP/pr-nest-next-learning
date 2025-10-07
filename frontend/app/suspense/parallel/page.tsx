@@ -124,6 +124,13 @@ export default function ParallelSuspensePage() {
             이 페이지는 여러 컴포넌트가 동시에 로드되는 병렬 streaming을
             테스트합니다. 각 컴포넌트가 독립적으로 로드되는 것을 확인해보세요.
           </p>
+          <div className="bg-green-100 border border-green-200 rounded-lg p-4 mt-4">
+            <p className="text-green-800 text-sm">
+              <strong>🚀 성능 개선:</strong> 순차적 스트리밍과 달리, 이
+              페이지에서는 3개 컴포넌트가 동시에 로드됩니다. 각각 1초, 1.2초,
+              1.5초 후에 준비되는 대로 표시되어 전체 로딩 시간이 단축됩니다.
+            </p>
+          </div>
           <div className="mt-4 space-x-4">
             <Link
               href="/test/suspense"

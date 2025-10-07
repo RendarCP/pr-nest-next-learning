@@ -146,6 +146,13 @@ export default function SkeletonTestPage() {
             이 페이지는 다양한 스켈레톤 UI 패턴을 테스트합니다. 기존 스피너와
             스켈레톤 UI의 차이점을 확인해보세요.
           </p>
+          <div className="bg-purple-100 border border-purple-200 rounded-lg p-4 mt-4">
+            <p className="text-purple-800 text-sm">
+              <strong>🎨 UX 개선:</strong> 스켈레톤 UI는 단순한 스피너보다 훨씬
+              자연스러운 로딩 경험을 제공합니다. 사용자는 콘텐츠의 구조를 미리
+              파악할 수 있어 심리적 대기 시간이 줄어듭니다.
+            </p>
+          </div>
           <div className="mt-4 space-x-4">
             <Link
               href="/suspense"

@@ -27,6 +27,8 @@
 - [x] Suspense Streaming 데모 페이지 구현
 - [x] 순차적/병렬 스트리밍 테스트
 - [x] 에러 바운더리 구현 (error.tsx)
+- [x] **완료**: Suspense Streaming 상세 문서화 (README.md)
+- [x] **완료**: 각 데모 페이지별 학습 포인트 추가
 
 ### ✅ 백엔드 기본 구조 (100%)
 
@@ -44,6 +46,8 @@
 - [x] Tailwind CSS 4 설정
 - [x] 기본 컴포넌트 라이브러리 (Button, Card, Input)
 - [x] 테스트 환경 설정 (Jest, Playwright, MSW)
+- [x] **완료**: Intercepting Routes 구현 및 문서화
+- [x] **완료**: Suspense Streaming 문서화 및 가이드 완성
 
 ### ✅ 개발 환경 설정 (100%)
 

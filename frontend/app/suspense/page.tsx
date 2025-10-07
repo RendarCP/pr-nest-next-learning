@@ -117,6 +117,13 @@ export default function SuspenseTestPage() {
             이 페이지는 React Server Components의 Suspense streaming을
             테스트합니다. 각 컴포넌트가 다른 시간에 로드되는 것을 확인해보세요.
           </p>
+          <div className="bg-blue-100 border border-blue-200 rounded-lg p-4 mt-4">
+            <p className="text-blue-800 text-sm">
+              <strong>💡 학습 포인트:</strong> 이 페이지에서는 순차적 스트리밍을
+              확인할 수 있습니다. 즉시 로드되는 정보 → 2초 후 느린 데이터 → 3초
+              후 매우 느린 데이터 순서로 표시됩니다.
+            </p>
+          </div>
           <div className="mt-4">
             <Link
               href="/"

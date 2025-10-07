@@ -91,6 +91,13 @@ export default function ErrorSuspensePage() {
             이 페이지는 Suspense에서 에러가 발생했을 때의 동작을 테스트합니다.
             에러가 발생해도 다른 컴포넌트들은 정상적으로 로드됩니다.
           </p>
+          <div className="bg-red-100 border border-red-200 rounded-lg p-4 mt-4">
+            <p className="text-red-800 text-sm">
+              <strong>🛡️ 에러 격리:</strong> 이 페이지에서는 정상 컴포넌트와
+              에러 컴포넌트가 함께 로드됩니다. 에러가 발생해도 전체 페이지가
+              깨지지 않고, 사용자는 정상적인 부분을 계속 볼 수 있습니다.
+            </p>
+          </div>
           <div className="mt-4 space-x-4">
             <Link
               href="/suspense"
