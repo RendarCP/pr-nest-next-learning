@@ -1,9 +1,46 @@
+"use client";
+
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import Link from "next/link";
-import { registerAction } from "@/lib/actions/auth";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerSchema, type RegisterFormData } from "@/lib/auth/validation";
+import { registerWithFormData } from "@/lib/actions/auth";
+import { useState } from "react";
 
 export default function RegisterPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      agreeTerms: false,
+    },
+  });
+
+  const onSubmit = async (data: RegisterFormData) => {
+    setIsSubmitting(true);
+    try {
+      await registerWithFormData(data);
+    } catch (error) {
+      setError("root", {
+        message: "회원가입에 실패했습니다. 다시 시도해주세요.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -22,68 +59,82 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        <form className="mt-8 space-y-6" action={registerAction}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              label="이름"
-              placeholder="이름을 입력하세요"
-              required
-            />
+            <div>
+              <Input
+                id="name"
+                type="text"
+                label="이름"
+                placeholder="이름을 입력하세요"
+                {...register("name")}
+                error={errors.name?.message}
+              />
+            </div>
 
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              label="이메일"
-              placeholder="이메일을 입력하세요"
-              required
-            />
+            <div>
+              <Input
+                id="email"
+                type="email"
+                label="이메일"
+                placeholder="이메일을 입력하세요"
+                {...register("email")}
+                error={errors.email?.message}
+              />
+            </div>
 
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              label="비밀번호"
-              placeholder="비밀번호를 입력하세요 (최소 6자)"
-              required
-              minLength={6}
-            />
+            <div>
+              <Input
+                id="password"
+                type="password"
+                label="비밀번호"
+                placeholder="비밀번호를 입력하세요 (최소 6자)"
+                {...register("password")}
+                error={errors.password?.message}
+              />
+            </div>
 
-            <Input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              label="비밀번호 확인"
-              placeholder="비밀번호를 다시 입력하세요"
-              required
-            />
+            <div>
+              <Input
+                id="confirmPassword"
+                type="password"
+                label="비밀번호 확인"
+                placeholder="비밀번호를 다시 입력하세요"
+                {...register("confirmPassword")}
+                error={errors.confirmPassword?.message}
+              />
+            </div>
           </div>
 
-          <div className="flex items-center">
-            <input
-              id="agree-terms"
-              name="agree-terms"
-              type="checkbox"
-              className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-              required
-            />
-            <label
-              htmlFor="agree-terms"
-              className="ml-2 block text-sm text-gray-900"
-            >
-              <a href="#" className="text-primary-600 hover:text-primary-500">
-                이용약관
-              </a>
-              에 동의합니다
-            </label>
-          </div>
+          <Input
+            id="agree-terms"
+            type="checkbox"
+            label={
+              <>
+                <a href="#" className="text-primary-600 hover:text-primary-500">
+                  이용약관
+                </a>
+                에 동의합니다
+              </>
+            }
+            {...register("agreeTerms")}
+            error={errors.agreeTerms?.message}
+          />
+
+          {errors.root && (
+            <div className="text-red-600 text-sm text-center">
+              {errors.root.message}
+            </div>
+          )}
 
           <div>
-            <Button type="submit" className="w-full" size="lg">
-              회원가입
+            <Button
+              type="submit"
+              className="w-full"
+              size="lg"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "회원가입 중..." : "회원가입"}
             </Button>
           </div>
 
