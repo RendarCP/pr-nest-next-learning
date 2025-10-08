@@ -174,8 +174,29 @@ export default function PostModal({ params }: PostModalProps) {
       }
     };
 
+    // 모달이 열릴 때 배경 스크롤 방지
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    const originalPosition = window.getComputedStyle(document.body).position;
+
+    // 배경 스크롤 완전히 차단
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.width = "100%";
+    document.body.style.top = `-${window.scrollY}px`;
+
     document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      // 모달이 닫힐 때 스크롤 복원
+      document.body.style.overflow = originalStyle;
+      document.body.style.position = originalPosition;
+      document.body.style.width = "";
+      document.body.style.top = "";
+
+      // 스크롤 위치 복원
+      window.scrollTo(0, parseInt(document.body.style.top || "0") * -1);
+    };
   }, []);
 
   if (isLoading) {
@@ -183,8 +204,12 @@ export default function PostModal({ params }: PostModalProps) {
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
         onClick={handleBackdropClick}
+        style={{ overflow: "hidden" }}
       >
-        <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
+        <div
+          className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="animate-pulse p-6">
             <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
             <div className="h-4 bg-gray-200 rounded w-1/2 mb-8"></div>
@@ -204,8 +229,12 @@ export default function PostModal({ params }: PostModalProps) {
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
         onClick={handleBackdropClick}
+        style={{ overflow: "hidden" }}
       >
-        <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+        <div
+          className="bg-white rounded-lg shadow-xl max-w-md w-full p-6"
+          onClick={(e) => e.stopPropagation()}
+        >
           <h2 className="text-xl font-bold text-gray-900 mb-4">
             게시글을 찾을 수 없습니다
           </h2>
@@ -224,8 +253,12 @@ export default function PostModal({ params }: PostModalProps) {
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
       onClick={handleBackdropClick}
+      style={{ overflow: "hidden" }}
     >
-      <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+      <div
+        className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* 헤더 */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center space-x-2">
@@ -258,7 +291,7 @@ export default function PostModal({ params }: PostModalProps) {
         </div>
 
         {/* 콘텐츠 */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-6 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           <div className="mb-4">
             <div className="flex items-center space-x-2 text-sm text-gray-500 mb-4">
               <span>{post.date}</span>

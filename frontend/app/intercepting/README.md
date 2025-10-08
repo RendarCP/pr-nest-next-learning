@@ -172,6 +172,13 @@ import { motion } from "framer-motion";
 2. **layout.tsx 확인**: `modal` prop이 렌더링되는지 확인
 3. **default.tsx 확인**: `@modal/default.tsx` 파일이 존재하는지 확인
 
+### 스크롤 문제 해결
+
+1. **배경 스크롤 차단**: 모달이 열릴 때 `document.body.style.overflow = 'hidden'` 적용
+2. **스크롤 위치 유지**: 모달 닫힐 때 원래 스크롤 위치로 복원
+3. **모달 내부 스크롤**: `overflow-y-auto`로 모달 내부에서만 스크롤 가능
+4. **터치 이벤트 처리**: 모바일에서 스크롤 동작 개선
+
 ### 모달이 전체 페이지로 표시되는 경우
 
 - **새로고침 확인**: 페이지를 새로고침하면 Intercepting이 무효화됨
